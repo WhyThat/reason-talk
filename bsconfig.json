@@ -16,7 +16,27 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-storybook"
+    "bs-storybook",
+    "bs-fetch",
+    "@glennsl/bs-json",
+    "bs-emotion"
   ],
-  "refmt": 3
+  "refmt": 3,
+  "gentypeconfig": {
+    "language": "typescript",
+    "module": "es6",
+    "importPath": "relative",
+    "shims": {
+      "Js": "Js",
+      "React": "ReactShim",
+      "ReactEvent": "ReactEvent",
+      "ReasonPervasives": "ReasonPervasives",
+      "ReasonReact": "ReactShim"
+    },
+    "debug": {
+      "all": false
+    },
+    "exportInterfaces": false
+  },
+    "ppx-flags": ["bs-emotion-ppx/ppx"]
 }
