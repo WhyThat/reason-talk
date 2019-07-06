@@ -4375,6 +4375,11 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+gentype@^2.31.0:
+  version "2.31.0"
+  resolved "https://registry.yarnpkg.com/gentype/-/gentype-2.31.0.tgz#2b10b40fd7a7b553cc673c01357defcff02cdaa0"
+  integrity sha512-ljyWG3mogXyxylagAad6yzlgbZtD0KNip0VmdDHFxiY+RdkLamznZrLgIgb3tuLmFCWmttu4FHxQLTX5uY2mHA==
+
 get-caller-file@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
