@@ -18,7 +18,7 @@ type difficulty =
 
 type action =
   | SetCards(cards)
-  | Finish
+  | ChangeStatus(status)
   | ShowAnswer
   | ValidateAnswer(difficulty);
 
@@ -27,6 +27,12 @@ type state = {
   status,
   currentIndex: int,
   display,
+};
+
+module StartCard = {
+  [@react.component]
+  let make = (~onStart) =>
+    <Button label="Start session \o/" onClick=onStart kind=Button.Primary />;
 };
 
 module FinishCard = {
@@ -54,7 +60,7 @@ let make = (~deckId) => {
     cards: Loading,
     currentIndex: 0,
     display: Recto,
-    status: InProgress,
+    status: Start,
   };
   let reducer = (state, action) =>
     switch (action) {
@@ -68,7 +74,7 @@ let make = (~deckId) => {
     | ValidateAnswer(Easy) =>
       Js.log("This is easy !");
       {...state, display: Recto, currentIndex: state.currentIndex + 1};
-    | Finish => {...state, status: Finished}
+    | ChangeStatus(status) => {...state, status}
     | SetCards(cards) => {...state, cards}
     };
 
@@ -90,7 +96,7 @@ let make = (~deckId) => {
       switch (state.display, state.cards) {
       | (Verso, Loaded(cards))
           when state.currentIndex == List.length(cards) - 1 =>
-        dispatch(Finish)
+        dispatch(ChangeStatus(Finished))
       | _ => ()
       };
       None;
@@ -145,6 +151,8 @@ let make = (~deckId) => {
         {renderButtons(state.display, handleClick)}
       </div>
     </>;
+  | (_, Start) =>
+    <StartCard onStart={handleClick(ChangeStatus(InProgress))} />
   | (_, Finished) => <FinishCard />
   | (Loading, _) => <Loader width="300" />
   | _ => React.null
