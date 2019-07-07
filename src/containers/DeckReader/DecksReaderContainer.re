@@ -94,8 +94,7 @@ let make = (~deckId) => {
   React.useEffect1(
     () => {
       switch (state.display, state.cards) {
-      | (Verso, Loaded(cards))
-          when state.currentIndex == List.length(cards) - 1 =>
+      | (Recto, Loaded(cards)) when state.currentIndex == List.length(cards) =>
         dispatch(ChangeStatus(Finished))
       | _ => ()
       };
@@ -133,18 +132,19 @@ let make = (~deckId) => {
     };
 
   let renderCard = (display, card) =>
-    switch (display) {
-    | Recto =>
+    switch (display, card) {
+    | (Recto, Some(card)) =>
       switch (card.imageUrl) {
       | Some(url) => <Card text={card.question} picture=url />
       | None => <Card text={card.question} />
       }
-    | Verso => <Card text={card.answer} />
+    | (Verso, Some(card)) => <Card text={card.answer} />
+    | _ => React.null
     };
 
   switch (state.cards, state.status) {
   | (Loaded(cards), InProgress) =>
-    let card = List.nth(cards, state.currentIndex);
+    let card = Belt.List.get(cards, state.currentIndex);
     <>
       <div className=Style.card> {renderCard(state.display, card)} </div>
       <div className=Style.buttons>
