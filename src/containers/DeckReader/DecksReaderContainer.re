@@ -29,6 +29,19 @@ type state = {
   display,
 };
 
+module FinishCard = {
+  [@react.component]
+  let make = () =>
+    <>
+      {React.string("Challenge Succeed well done !")}
+      <Button
+        label="Go back to decks"
+        onClick={_ => ReasonReactRouter.push("/decks")}
+        kind=Button.Primary
+      />
+    </>;
+};
+
 module Style = {
   open Emotion;
   let card = [%css []];
@@ -132,7 +145,7 @@ let make = (~deckId) => {
         {renderButtons(state.display, handleClick)}
       </div>
     </>;
-  | (_, Finished) => React.string("walouuuuuuu")
+  | (_, Finished) => <FinishCard />
   | (Loading, _) => <Loader width="300" />
   | _ => React.null
   };
