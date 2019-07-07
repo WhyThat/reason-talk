@@ -16,13 +16,15 @@ module Style = {
 };
 
 [@react.component]
-let make = (~text, ~picture=?) =>
-  <div id="cardContent" className=Style.container>
-    {switch (picture) {
-     | Some(url) => <img src=url className=Style.image alt="picture card" />
-     | None => React.null
-     }}
-    <div id="cardText" className=Style.textBlock>
-      {ReasonReact.string(text)}
+let make =
+  React.memo((~text, ~picture=?) =>
+    <div id="cardContent" className=Style.container>
+      {switch (picture) {
+       | Some(url) => <img src=url className=Style.image alt="picture card" />
+       | None => React.null
+       }}
+      <div id="cardText" className=Style.textBlock>
+        {ReasonReact.string(text)}
+      </div>
     </div>
-  </div>;
+  );

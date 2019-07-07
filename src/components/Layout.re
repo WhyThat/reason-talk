@@ -17,8 +17,10 @@ module Style = {
 };
 
 [@react.component]
-let make = (~content) =>
-  <div className=Style.container>
-    <Header message="Bonjour LinkValue" />
-    <div className=Style.content> content </div>
-  </div>;
+let make =
+  React.memo((~content) =>
+    <div className=Style.container>
+      <Header message="Bonjour LinkValue" />
+      <div className=Style.content> content </div>
+    </div>
+  );
