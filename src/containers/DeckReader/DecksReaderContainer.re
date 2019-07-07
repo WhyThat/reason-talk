@@ -11,11 +11,16 @@ type status =
   | InProgress
   | Finished;
 
+type difficulty =
+  | Easy
+  | Medium
+  | Hard;
+
 type action =
   | SetCards(cards)
   | Finish
   | ShowAnswer
-  | NextQuestion;
+  | ValidateAnswer(difficulty);
 
 type state = {
   cards,
@@ -41,11 +46,15 @@ let make = (~deckId) => {
   let reducer = (state, action) =>
     switch (action) {
     | ShowAnswer => {...state, display: Verso}
-    | NextQuestion => {
-        ...state,
-        display: Recto,
-        currentIndex: state.currentIndex + 1,
-      }
+    | ValidateAnswer(Hard) =>
+      Js.log("This is hard !");
+      {...state, display: Recto, currentIndex: state.currentIndex + 1};
+    | ValidateAnswer(Medium) =>
+      Js.log("This is medium !");
+      {...state, display: Recto, currentIndex: state.currentIndex + 1};
+    | ValidateAnswer(Easy) =>
+      Js.log("This is easy !");
+      {...state, display: Recto, currentIndex: state.currentIndex + 1};
     | Finish => {...state, status: Finished}
     | SetCards(cards) => {...state, cards}
     };
@@ -87,14 +96,19 @@ let make = (~deckId) => {
     | Verso =>
       <>
         <Button
-          label="Next Question"
+          label="Easy"
           kind=Button.Secondary
-          onClick={handleClick(NextQuestion)}
+          onClick={handleClick(ValidateAnswer(Easy))}
         />
         <Button
-          label="Next Question"
+          label="Medium"
           kind=Button.Secondary
-          onClick={handleClick(NextQuestion)}
+          onClick={handleClick(ValidateAnswer(Medium))}
+        />
+        <Button
+          label="Hard"
+          kind=Button.Secondary
+          onClick={handleClick(ValidateAnswer(Hard))}
         />
       </>
     };
