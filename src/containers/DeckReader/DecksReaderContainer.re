@@ -5,10 +5,17 @@ type cards = Types.data(list(Types.card));
 type display =
   | Recto
   | Verso;
+
 type status =
   | Start
   | InProgress
   | Finished;
+
+type action =
+  | SetCards(cards)
+  | Finish
+  | ShowAnswer
+  | NextQuestion;
 
 type state = {
   cards,
@@ -31,11 +38,43 @@ let make = (~deckId) => {
     display: Recto,
     status: InProgress,
   };
-  let reducer = (state, action) => state;
-  let (state, dispatch) = React.useReducer(reducer, initialState);
+  let reducer = (state, action) =>
+    switch (action) {
+    | ShowAnswer => {...state, display: Verso}
+    | NextQuestion => {
+        ...state,
+        display: Recto,
+        currentIndex: state.currentIndex + 1,
+      }
+    | Finish => {...state, status: Finished}
+    | SetCards(cards) => {...state, cards}
+    };
 
-  let handleClick =
-    React.useCallback((action, _mouseEvent) => dispatch(action));
+  let (state, dispatch) = React.useReducer(reducer, initialState);
+  let handleClick = React.useCallback((action, _) => dispatch(action));
+
+  React.useEffect0(() => {
+    let handleApiResult = cards => dispatch(SetCards(cards));
+    let timerId =
+      Utils.setTimeout(
+        () => CardsApi.get(~callBack=handleApiResult, ~deckId),
+        5000,
+      );
+    Some(() => Utils.clearTimeout(timerId));
+  });
+
+  React.useEffect1(
+    () => {
+      switch (state.display, state.cards) {
+      | (Verso, Loaded(cards))
+          when state.currentIndex == List.length(cards) - 1 =>
+        dispatch(Finish)
+      | _ => ()
+      };
+      None;
+    },
+    [|state.display|],
+  );
 
   let renderButtons = (display, handleClick) =>
     switch (display) {
@@ -43,19 +82,19 @@ let make = (~deckId) => {
       <Button
         label="Show Answer"
         kind=Button.Primary
-        onClick={handleClick()}
+        onClick={handleClick(ShowAnswer)}
       />
     | Verso =>
       <>
         <Button
           label="Next Question"
           kind=Button.Secondary
-          onClick={handleClick()}
+          onClick={handleClick(NextQuestion)}
         />
         <Button
           label="Next Question"
           kind=Button.Secondary
-          onClick={handleClick()}
+          onClick={handleClick(NextQuestion)}
         />
       </>
     };
