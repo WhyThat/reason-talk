@@ -9,7 +9,7 @@ let cardDecoder = json =>
   };
 
 let url = "http://screen-shots2.s3-us-east-2.amazonaws.com/deck";
-let get = (~callBack, ~deckId) => {
+let fetch = (~callBack, ~deckId) => {
   callBack(Loading);
   Js.Promise.(
     Fetch.fetch(url ++ string_of_int(deckId) ++ ".json")

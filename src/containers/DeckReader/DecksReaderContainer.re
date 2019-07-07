@@ -85,7 +85,7 @@ let make = (~deckId) => {
     let handleApiResult = cards => dispatch(SetCards(cards));
     let timerId =
       Utils.setTimeout(
-        () => CardsApi.get(~callBack=handleApiResult, ~deckId),
+        () => CardsApi.fetch(~callBack=handleApiResult, ~deckId),
         5000,
       );
     Some(() => Utils.clearTimeout(timerId));
