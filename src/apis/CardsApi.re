@@ -8,7 +8,7 @@ let cardDecoder = json =>
     imageUrl: json |> optional(field("imageUrl", string)),
   };
 
-let url = "http://screen-shots2.s3-us-east-2.amazonaws.com/deck";
+let url = "https://screen-shots2.s3-us-east-2.amazonaws.com/deck";
 let fetch = (~callBack, ~deckId) => {
   callBack(Loading);
   Js.Promise.(
