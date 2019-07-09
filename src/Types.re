@@ -5,6 +5,11 @@ type card = {
   answer: string,
 };
 
+type deck = {
+  id: string,
+  name: string,
+};
+
 type data('a) =
   | Loading
   | Error
