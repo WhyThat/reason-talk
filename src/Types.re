@@ -8,6 +8,7 @@ type card = {
 type deck = {
   id: string,
   name: string,
+  cards: option(list(card)),
 };
 
 type data('a) =

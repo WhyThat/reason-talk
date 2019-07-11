@@ -4,9 +4,12 @@ let deckDecoder = json =>
   Json.Decode.{
     id: json |> field("id", string),
     name: json |> field("name", string),
+    cards:
+      json
+      |> optional(field("cards", Json.Decode.list(CardsApi.cardDecoder))),
   };
 
-let url = "https://screen-shots2.s3-us-east-2.amazonaws.com/deckList.json";
+let url = "https://screen-shots2.s3-us-east-2.amazonaws.com/fullDeck.json";
 let fetch = (~callBack) => {
   callBack(Loading);
   Js.Promise.(

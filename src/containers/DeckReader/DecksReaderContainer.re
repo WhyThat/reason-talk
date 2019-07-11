@@ -55,9 +55,13 @@ module Style = {
 };
 
 [@react.component]
-let make = (~deckId) => {
+let make = (~deckId, ~cards=?) => {
   let initialState = {
-    cards: Loading,
+    cards:
+      switch (cards) {
+      | Some(cards) => cards
+      | None => Loading
+      },
     currentIndex: 0,
     display: Recto,
     status: Start,
@@ -85,7 +89,11 @@ let make = (~deckId) => {
     let handleApiResult = cards => dispatch(SetCards(cards));
     let timerId =
       Utils.setTimeout(
-        () => CardsApi.fetch(~callBack=handleApiResult, ~deckId),
+        () =>
+          switch (state.cards) {
+          | Loaded(_) => ()
+          | _ => CardsApi.fetch(~callBack=handleApiResult, ~deckId)
+          },
         5000,
       );
     Some(() => Utils.clearTimeout(timerId));
