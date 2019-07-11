@@ -46,6 +46,7 @@ module Style = {
     ]
   ];
 };
+[@gentype]
 [@react.component]
 let make = (~label, ~onClick, ~isDisabled=?, ~kind) =>
   <button

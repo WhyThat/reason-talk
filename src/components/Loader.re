@@ -1,3 +1,4 @@
+[@gentype]
 [@react.component]
 let make =
   React.memo((~src=?, ~width) =>

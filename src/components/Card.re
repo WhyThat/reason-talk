@@ -14,7 +14,7 @@ module Style = {
   let image = [%css [width(pct(100.))]];
   let textBlock = [%css [wordBreak(`breakAll)]];
 };
-
+[@gentype]
 [@react.component]
 let make =
   React.memo((~text, ~picture=?) =>

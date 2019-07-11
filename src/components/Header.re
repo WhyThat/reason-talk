@@ -14,7 +14,7 @@ module Style = {
   let logo = [%css [height(`px(40))]];
   let title = [%css [margin(`auto)]];
 };
-
+[@gentype]
 [@react.component]
 let make = (~message) =>
   <header className=Style.header>

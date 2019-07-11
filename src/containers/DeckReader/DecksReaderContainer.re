@@ -54,6 +54,7 @@ module Style = {
   let buttons = [%css [display(`flex), justifyContent(`spaceEvenly)]];
 };
 
+[@gentype]
 [@react.component]
 let make = (~deckId, ~cards=?) => {
   let initialState = {

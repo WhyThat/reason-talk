@@ -16,6 +16,7 @@ module Style = {
   ];
 };
 
+[@gentype]
 [@react.component]
 let make =
   React.memo((~content) =>

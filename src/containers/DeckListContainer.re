@@ -1,5 +1,6 @@
 open Types;
 
+[@gentype]
 [@react.component]
 let make = () => {
   let (cards, setCards) = React.useState(() => Loading);

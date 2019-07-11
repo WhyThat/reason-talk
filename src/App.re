@@ -6,7 +6,7 @@ global(
 global("html", [height(pct(100.))]);
 global("#root", [height(pct(100.))]);
 global("*", [boxSizing(`borderBox)]);
-
+[@gentype]
 [@react.component]
 let make = () => {
   let url = ReasonReactRouter.useUrl();

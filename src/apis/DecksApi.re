@@ -10,6 +10,7 @@ let deckDecoder = json =>
   };
 
 let url = "https://screen-shots2.s3-us-east-2.amazonaws.com/fullDeck.json";
+[@gentype]
 let fetch = (~callBack) => {
   callBack(Loading);
   Js.Promise.(
